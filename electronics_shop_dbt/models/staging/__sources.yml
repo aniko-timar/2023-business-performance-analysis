@@ -1,0 +1,10 @@
+version: 2
+
+# Try using these source definitions instead!
+sources:
+  - name: electronics_db
+    schema: raw
+    description: Sales data for electronics shop.
+    tables:
+      - name: RAW_SALES_TRANSACTIONS
+        description: One record per transaction.

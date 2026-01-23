@@ -1,0 +1,76 @@
+
+models:
+  - name: int_sales_standardized
+    description: >
+      Sales transactions with standardized values and business logic applied.
+      This intermediate model handles data quality issues, standardizes categorical values,
+      calculates derived metrics, and removes invalid/duplicate records.
+    columns:
+      - name: transaction_id
+        description: Standardized transaction identifier (uppercase)
+        tests:
+          - not_null
+          - unique
+          
+      - name: transaction_date
+        description: Transaction date
+        tests:
+          - not_null
+          
+      - name: customer_type
+        description: Standardized customer type (New, Returning, VIP, Unknown)
+        tests:
+          - not_null
+              
+      - name: product_name
+        description: Standardized product name
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Laptop', 'Mouse', 'Keyboard', 'Monitor', 'Headphones', 'Webcam', 'USB Cable', 'Charger', 'Unknown']
+              
+      - name: category
+        description: Standardized category name
+        tests:
+          - not_null
+          
+      - name: region
+        description: Standardized region (North, South, East, West, Central)
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['North', 'South', 'East', 'West', 'Central']
+        
+      - name: quantity
+        description: Quantity sold (positive integers only)
+        tests:
+          - not_null
+          
+      - name: unit_price
+        description: Price per unit
+        tests:
+          - not_null
+          
+      - name: revenue
+        description: Total revenue (quantity * unit_price)
+        tests:
+          - not_null
+          
+      - name: cost
+        description: Total cost of goods sold
+        tests:
+          - not_null
+          
+      - name: profit
+        description: Calculated profit (revenue - cost)
+        
+      - name: profit_margin
+        description: Calculated profit margin (profit / revenue)
+        
+      - name: is_invalid_record
+        description: Data quality flag - should always be FALSE in final output
+        tests:
+          - accepted_values:
+              arguments:
+                values: [false]

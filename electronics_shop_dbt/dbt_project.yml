@@ -1,0 +1,41 @@
+name: electronics_shop_dbt
+
+profile: electronics_shop_dbt
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+seeds:
+  # Builds seeds into '<your_schema_name>_raw'
+  electronics_shop_dbt:
+    +schema: raw
+
+models:
+  electronics_shop_dbt:
+    # Materialize staging models as views, and marts as tables
+    staging:
+      +materialized: view
+      +schema: staging
+    intermediate:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: analytics
+
+tests:
+  techhub_analytics:
+    +store_failures: true
+    +schema: test_results
+
+vars:
+  date_dimension_start: '2021-01-01'
+  date_dimension_end: '2023-12-31'
